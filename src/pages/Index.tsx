@@ -1,6 +1,7 @@
 
-import Home from './Home';
+import React from 'react';
+import App from '../App';
 
-const Index = () => <Home />;
+const Index = () => <App />;
 
 export default Index;

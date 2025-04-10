@@ -4,6 +4,7 @@ import { useManhwa } from '@/context/ManhwaContext';
 import ManhwaGrid from '@/components/ManhwaGrid';
 import { Bell } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import Logo from '@/components/Logo';
 
 const Home: React.FC = () => {
   const { manhwaList } = useManhwa();
@@ -52,8 +53,10 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto max-w-screen-xl py-4 pb-24 sm:pb-4">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold">Your Manhwa Collection</h1>
+      <header className="mb-6 flex flex-col items-center sm:items-start">
+        <div className="mb-4">
+          <Logo size="lg" />
+        </div>
         <p className="text-muted-foreground">Track your favorite manhwas all in one place</p>
       </header>
       
