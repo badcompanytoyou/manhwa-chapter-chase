@@ -46,13 +46,13 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 0 0% 10%; /* #1a1a1a */
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 0 0% 10%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 0 0% 10%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 262 83% 58%;
@@ -74,7 +74,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 262 83% 58%;
     
-    --sidebar-background: 240 5.9% 10%;
+    --sidebar-background: 0 0% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 262 83% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -105,7 +105,7 @@
   }
   
   .manhwa-card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg;
+    @apply bg-white dark:bg-[#1a1a1a] rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg;
   }
   
   .manhwa-cover {

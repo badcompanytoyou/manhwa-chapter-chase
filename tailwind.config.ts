@@ -72,6 +72,7 @@ export default {
 					card: '#FFFFFF',
 					text: '#1F2937',
 					muted: '#9CA3AF',
+					darkBackground: '#1a1a1a', // Added dark background
 				}
 			},
 			borderRadius: {
