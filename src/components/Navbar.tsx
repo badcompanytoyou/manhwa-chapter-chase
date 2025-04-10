@@ -9,6 +9,7 @@ import {
   BookMarked 
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Logo from './Logo';
 
 const navItems = [
   { 
@@ -44,6 +45,11 @@ const Navbar: React.FC = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 border-t bg-background z-10 pb-safe sm:static sm:border-b sm:border-t-0">
       <div className="container mx-auto max-w-screen-xl">
+        <div className="hidden sm:flex items-center py-2">
+          <Link to="/" className="mr-8">
+            <Logo size="sm" variant="compact" />
+          </Link>
+        </div>
         <nav className="flex justify-between items-center sm:justify-start sm:gap-8">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
