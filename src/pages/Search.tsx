@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useManhwa } from '@/context/ManhwaContext';
-import SearchFilters from '@/components/SearchFilters';
+import { SearchFilters } from '@/components/search';
 import ManhwaGrid from '@/components/ManhwaGrid';
 
 const Search: React.FC = () => {
