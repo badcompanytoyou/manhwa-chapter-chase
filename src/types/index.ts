@@ -10,6 +10,9 @@ export interface ManhwaChapter {
   isNew?: boolean;
 }
 
+export type Gender = "Straight" | "Yaoi" | "Yuri" | "Other";
+export type WeekDay = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+
 export interface Manhwa {
   id: string;
   title: string;
@@ -19,10 +22,10 @@ export interface Manhwa {
   illustrator: string;
   description: string;
   status: 'Ongoing' | 'Completed' | 'Hiatus' | 'Canceled';
-  releaseDay: string;
+  releaseDay: WeekDay;
   releaseYear: number;
   categories: string[];
-  gender: string;
+  gender: Gender;
   country: string;
   hasNewChapter: boolean;
   isNew?: boolean;
