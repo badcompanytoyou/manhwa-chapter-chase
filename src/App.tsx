@@ -16,6 +16,8 @@ import Notifications from "./pages/Notifications";
 import ManhwaDetail from "./pages/ManhwaDetail";
 import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
+import Dashboard from "./pages/Dashboard";
+import GenderDrawer from "./components/GenderDrawer";
 
 const queryClient = new QueryClient();
 
@@ -48,7 +50,10 @@ const App = () => {
             ) : (
               <BrowserRouter>
                 <div className="flex flex-col min-h-screen">
-                  <Navbar />
+                  <div className="flex items-center">
+                    <GenderDrawer />
+                    <Navbar />
+                  </div>
                   <main className="flex-grow">
                     <Routes>
                       <Route path="/" element={<Home />} />
@@ -57,6 +62,7 @@ const App = () => {
                       <Route path="/calendar" element={<Calendar />} />
                       <Route path="/notifications" element={<Notifications />} />
                       <Route path="/manhwa/:id" element={<ManhwaDetail />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>

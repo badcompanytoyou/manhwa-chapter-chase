@@ -31,11 +31,14 @@ const Logo: React.FC<LogoProps> = ({
     transparent: ''
   };
 
-  // For now, use the same logos for both themes
-  // When new dark theme logos are provided, we'll update this logic
-  const logoSrc = variant === 'full' 
-    ? "/lovable-uploads/59c75a81-a316-487d-95d2-a804b0103a0a.png" 
-    : "/lovable-uploads/975310e0-6263-4c67-a5e9-529456a1e657.png";
+  // Use different logos based on theme
+  const logoSrc = isDarkTheme 
+    ? (variant === 'full' 
+      ? "/lovable-uploads/748e93b7-489d-4f5b-b747-9ddc2d2c4e2d.png" 
+      : "/lovable-uploads/fcb3e880-caec-479b-84fc-a5c659c51b94.png")
+    : (variant === 'full' 
+      ? "/lovable-uploads/59c75a81-a316-487d-95d2-a804b0103a0a.png" 
+      : "/lovable-uploads/975310e0-6263-4c67-a5e9-529456a1e657.png");
 
   const LogoContent = (
     <div className={backgroundClasses[background]}>

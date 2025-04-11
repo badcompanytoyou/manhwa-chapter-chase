@@ -26,9 +26,10 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
 
   if (!visible) return null;
 
-  // For now, use the same logo for both themes
-  // When new dark theme logos are provided, we'll update this
-  const logoSrc = "/lovable-uploads/59c75a81-a316-487d-95d2-a804b0103a0a.png";
+  // Use different logo based on theme
+  const logoSrc = isDarkTheme
+    ? "/lovable-uploads/748e93b7-489d-4f5b-b747-9ddc2d2c4e2d.png"
+    : "/lovable-uploads/59c75a81-a316-487d-95d2-a804b0103a0a.png";
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-[#1a1a1a] z-50">

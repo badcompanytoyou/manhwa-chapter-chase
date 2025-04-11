@@ -12,6 +12,12 @@ interface ManhwaContextType {
   removeManhwa: (id: string) => void;
   updateManhwa: (manhwa: Manhwa) => void;
   markChapterAsRead: (manhwaId: string, chapterId: string, isRead: boolean) => void;
+  markManhwaAsReading: (manhwaId: string, isReading: boolean) => void;
+  markManhwaAsRereading: (manhwaId: string, isRereading: boolean) => void;
+  markManhwaAsDropped: (manhwaId: string, isDropped: boolean, note?: string) => void;
+  markManhwaAsPlanToRead: (manhwaId: string, isPlanToRead: boolean) => void;
+  toggleFavorite: (manhwaId: string) => void;
+  markManhwaAsOnHold: (manhwaId: string, isOnHold: boolean) => void;
   searchManhwa: (query: string) => void;
   filterManhwa: (filters: FilterOptions) => void;
   currentFilters: FilterOptions;
@@ -75,13 +81,177 @@ export const ManhwaProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       prev.map((manhwa) => {
         if (manhwa.id === manhwaId) {
           const updatedChapters = manhwa.chapters.map((chapter) =>
-            chapter.id === chapterId ? { ...chapter, isRead } : chapter
+            chapter.id === chapterId ? { 
+              ...chapter, 
+              isRead,
+              lastReadAt: isRead ? new Date() : chapter.lastReadAt 
+            } : chapter
           );
           return { ...manhwa, chapters: updatedChapters };
         }
         return manhwa;
       })
     );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    const chapter = manhwa?.chapters.find(c => c.id === chapterId);
+    
+    if (manhwa && chapter) {
+      if (isRead) {
+        toast.success(`Marked Chapter ${chapter.number} of ${manhwa.title} as read`);
+      } else {
+        toast.success(`Marked Chapter ${chapter.number} of ${manhwa.title} as unread`);
+      }
+    }
+  };
+
+  // Mark manhwa as reading
+  const markManhwaAsReading = (manhwaId: string, isReading: boolean) => {
+    setManhwaList((prev) =>
+      prev.map((manhwa) => {
+        if (manhwa.id === manhwaId) {
+          return { 
+            ...manhwa, 
+            reading: isReading,
+            // Reset other statuses if setting to reading
+            planToRead: isReading ? false : manhwa.planToRead,
+            onHold: isReading ? false : manhwa.onHold,
+            dropped: isReading ? false : manhwa.dropped,
+            rereading: false
+          };
+        }
+        return manhwa;
+      })
+    );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    if (manhwa && isReading) {
+      toast.success(`Added ${manhwa.title} to your reading list`);
+    }
+  };
+
+  // Mark manhwa as re-reading
+  const markManhwaAsRereading = (manhwaId: string, isRereading: boolean) => {
+    setManhwaList((prev) =>
+      prev.map((manhwa) => {
+        if (manhwa.id === manhwaId) {
+          return { 
+            ...manhwa, 
+            rereading: isRereading,
+            reading: isRereading || manhwa.reading,
+            // Reset other statuses if setting to rereading
+            planToRead: isRereading ? false : manhwa.planToRead,
+            onHold: isRereading ? false : manhwa.onHold,
+            dropped: isRereading ? false : manhwa.dropped
+          };
+        }
+        return manhwa;
+      })
+    );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    if (manhwa && isRereading) {
+      toast.success(`Added ${manhwa.title} to your re-reading list`);
+    }
+  };
+
+  // Mark manhwa as dropped
+  const markManhwaAsDropped = (manhwaId: string, isDropped: boolean, note?: string) => {
+    setManhwaList((prev) =>
+      prev.map((manhwa) => {
+        if (manhwa.id === manhwaId) {
+          return { 
+            ...manhwa, 
+            dropped: isDropped,
+            dropNote: isDropped ? note || manhwa.dropNote : undefined,
+            // Reset other statuses if setting to dropped
+            reading: isDropped ? false : manhwa.reading,
+            planToRead: isDropped ? false : manhwa.planToRead,
+            onHold: isDropped ? false : manhwa.onHold,
+            rereading: isDropped ? false : manhwa.rereading
+          };
+        }
+        return manhwa;
+      })
+    );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    if (manhwa && isDropped) {
+      toast.success(`Marked ${manhwa.title} as dropped`);
+    }
+  };
+
+  // Mark manhwa as plan to read
+  const markManhwaAsPlanToRead = (manhwaId: string, isPlanToRead: boolean) => {
+    setManhwaList((prev) =>
+      prev.map((manhwa) => {
+        if (manhwa.id === manhwaId) {
+          return { 
+            ...manhwa, 
+            planToRead: isPlanToRead,
+            // Reset other statuses if setting to plan to read
+            reading: isPlanToRead ? false : manhwa.reading,
+            onHold: isPlanToRead ? false : manhwa.onHold,
+            dropped: isPlanToRead ? false : manhwa.dropped,
+            rereading: isPlanToRead ? false : manhwa.rereading
+          };
+        }
+        return manhwa;
+      })
+    );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    if (manhwa && isPlanToRead) {
+      toast.success(`Added ${manhwa.title} to your plan to read list`);
+    }
+  };
+
+  // Toggle favorite status
+  const toggleFavorite = (manhwaId: string) => {
+    setManhwaList((prev) =>
+      prev.map((manhwa) => {
+        if (manhwa.id === manhwaId) {
+          const newValue = !manhwa.favorite;
+          return { ...manhwa, favorite: newValue };
+        }
+        return manhwa;
+      })
+    );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    if (manhwa) {
+      const newValue = !manhwa.favorite;
+      if (newValue) {
+        toast.success(`Added ${manhwa.title} to your favorites`);
+      } else {
+        toast.success(`Removed ${manhwa.title} from your favorites`);
+      }
+    }
+  };
+
+  // Mark manhwa as on hold
+  const markManhwaAsOnHold = (manhwaId: string, isOnHold: boolean) => {
+    setManhwaList((prev) =>
+      prev.map((manhwa) => {
+        if (manhwa.id === manhwaId) {
+          return { 
+            ...manhwa, 
+            onHold: isOnHold,
+            // Reset other statuses if setting to on hold
+            reading: isOnHold ? false : manhwa.reading,
+            planToRead: isOnHold ? false : manhwa.planToRead,
+            dropped: isOnHold ? false : manhwa.dropped,
+            rereading: isOnHold ? false : manhwa.rereading
+          };
+        }
+        return manhwa;
+      })
+    );
+    
+    const manhwa = manhwaList.find(m => m.id === manhwaId);
+    if (manhwa && isOnHold) {
+      toast.success(`Marked ${manhwa.title} as on hold`);
+    }
   };
 
   // Search function
@@ -156,6 +326,12 @@ export const ManhwaProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     removeManhwa,
     updateManhwa,
     markChapterAsRead,
+    markManhwaAsReading,
+    markManhwaAsRereading,
+    markManhwaAsDropped,
+    markManhwaAsPlanToRead,
+    toggleFavorite,
+    markManhwaAsOnHold,
     searchManhwa,
     filterManhwa,
     currentFilters,

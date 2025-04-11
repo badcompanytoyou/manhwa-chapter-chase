@@ -21,16 +21,16 @@ const ManhwaCard: React.FC<ManhwaCardProps> = ({ manhwa }) => {
 
   return (
     <Link to={`/manhwa/${manhwa.id}`}>
-      <div className="manhwa-card group h-full flex flex-col">
-        <div className="manhwa-cover">
+      <div className="manhwa-card group h-full flex flex-col overflow-hidden rounded-lg border border-border shadow-sm transition-all hover:shadow-md">
+        <div className="relative aspect-[2/3] overflow-hidden">
           <img 
             src={manhwa.coverImage} 
             alt={manhwa.title} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           
           {/* Progress bar overlay at the bottom */}
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200">
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700">
             <div 
               className="h-full bg-manhwa-primary" 
               style={{ width: `${progress}%` }}
@@ -45,20 +45,29 @@ const ManhwaCard: React.FC<ManhwaCardProps> = ({ manhwa }) => {
               </Badge>
             </div>
           )}
+          
+          {/* Mature content badge if needed */}
+          {manhwa.mature && (
+            <div className="absolute top-2 left-2">
+              <Badge variant="destructive" className="font-bold">
+                18+
+              </Badge>
+            </div>
+          )}
         </div>
         
-        <div className="p-3 flex flex-col flex-grow">
+        <div className="p-3 flex flex-col flex-grow bg-card dark:bg-gray-800">
           <h3 className="font-bold text-sm line-clamp-2 group-hover:text-manhwa-primary transition-colors">
             {manhwa.title}
           </h3>
           
-          <div className="mt-1 flex items-center text-xs text-gray-500 space-x-1">
+          <div className="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-1">
             <BookOpen size={12} />
             <span>{readChaptersCount}/{totalChapters} chapters</span>
           </div>
           
           {manhwa.nextChapterDate && (
-            <div className="mt-1 flex items-center text-xs text-gray-500 space-x-1">
+            <div className="mt-1 flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-1">
               <Clock size={12} />
               <span>
                 Next: {formatDistanceToNow(manhwa.nextChapterDate, { addSuffix: true })}
