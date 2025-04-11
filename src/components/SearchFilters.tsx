@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,7 +30,7 @@ import {
   getAllGenders, 
   getAllWeekdays 
 } from '@/data/mockData';
-import { FilterOptions } from '@/context/ManhwaContext';
+import { FilterOptions } from '@/context/types';
 
 interface SearchFiltersProps {
   onSearch: (query: string) => void;
